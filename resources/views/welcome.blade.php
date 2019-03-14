@@ -4,7 +4,7 @@
     <title>Demo Project</title>
 </head>
 <body>
-    <h1>Updated Title in this PR</h1>
+    <h1>Master Branch Title</h1>
     @foreach ($entries as $entry)
         <h2>{{ $entry->title }}</h2>
         <p>{{ $entry->body }}</p>
