@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  app:
+    container_name: nefcu-app
+    working_dir: /var/www/nefcu-laravel
+    build:
+      context: .
+      dockerfile: dockerfiles/app.dockerfile
+    volumes:
+      - "demo-nfs:/var/www/nefcu-laravel"
+  nginx:
+    container_name: nefcu-nginx
+    working_dir: /var/www/nefcu-laravel
+    build:
+      context: .
+      dockerfile: dockerfiles/nginx.dockerfile
+    volumes:
+      - "demo-nfs:/var/www/nefcu-laravel"
+    ports:
+      - 8080:80
+    environment:
+      - VIRTUAL_HOST=demoproject.test
+
+  mysql:
+    container_name: nefcu-mysql
+    image: mariadb:10.4.1
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+volumes:
+  demo-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: ":${PROJECT_DIRECTORY}"
+
+networks:
+  default:
+    external:
+      name: boost
