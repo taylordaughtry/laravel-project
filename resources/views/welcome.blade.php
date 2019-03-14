@@ -4,7 +4,7 @@
     <title>Demo Project</title>
 </head>
 <body>
-    <h1>This is inside a Pull Request</h1>
+    <h1>This is in a Pull Request commit</h1>
     @foreach ($entries as $entry)
         <h2>{{ $entry->title }}</h2>
         <p>{{ $entry->body }}</p>
